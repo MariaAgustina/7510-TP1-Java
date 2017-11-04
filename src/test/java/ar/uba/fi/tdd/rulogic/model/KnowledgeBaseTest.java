@@ -1,11 +1,11 @@
 package ar.uba.fi.tdd.rulogic.model;
 
-import static org.mockito.MockitoAnnotations.initMocks;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class KnowledgeBaseTest {
 
@@ -18,9 +18,20 @@ public class KnowledgeBaseTest {
 	}
 
 	@Test
-	public void test() {
+	public void factsTests() {
+		Assert.assertTrue(this.knowledgeBase.answer("varon (juan)."));
+		Assert.assertTrue(this.knowledgeBase.answer("varon(juan)."));
+		Assert.assertTrue(this.knowledgeBase.answer("varon( nicolas ) ."));
+		Assert.assertTrue(this.knowledgeBase.answer("padre(roberto, alejandro)."));
+		Assert.assertFalse(this.knowledgeBase.answer("padre(ricardo, alejandro)."));
+	}
 
-		Assert.assertTrue(this.knowledgeBase.answer("varon (javier)."));
+	@Test
+	public void rulesTests() {
+		Assert.assertFalse(this.knowledgeBase.answer("hijo(ricardo,roberto)."));
+		Assert.assertTrue(this.knowledgeBase.answer("hija(cecilia,roberto)."));
+		Assert.assertTrue(this.knowledgeBase.answer("tio(nicolas, alejandro, roberto)."));
+		Assert.assertFalse(this.knowledgeBase.answer("tio(alejandro, nicolas, roberto)."));
 
 	}
 

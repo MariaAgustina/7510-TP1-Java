@@ -9,29 +9,34 @@ import java.util.HashMap;
 public class Validator {
 
     public HashMap<String,ArrayList<Query>> factsDictionary;
-    public HashMap<String,ArrayList<Query>> rulesDictionary;
-
+    public HashMap<String,Query> rulesDictionary;
 
     public boolean isValid(Query query){
-        if(query.isRule()){
+        String eventKey = query.getEventKey();
+        if(this.factsDictionary.containsKey(eventKey)) {
+            return isFactValid(query);
+        }else if(this.rulesDictionary.containsKey(eventKey)){
             return isRuleValid(query);
         }
-        return isFactValid(query);
-
+        return false;
     }
 
-
-    private boolean isRuleValid(Query rule){
-        //TODO
-        return true;
+    private boolean isRuleValid(Query ruleQuery){
+        String ruleKey = ruleQuery.getEventKey();
+        Query ruleDefinition = this.rulesDictionary.get(ruleKey);
+        Rule rule = new Rule(ruleQuery,ruleDefinition);
+        boolean isFactInRuleValid = true;
+        for (Query fact : rule.factsArray){
+            if(!this.isFactValid(fact)){
+                isFactInRuleValid = false;
+            }
+        }
+        return  isFactInRuleValid;
     }
 
     private boolean isFactValid(Query fact){
         String factKey = fact.getEventKey();
-        if(this.factsDictionary.containsKey(factKey)){
-            ArrayList<Query> facts = this.factsDictionary.get(factKey);
-            return (facts.contains(fact));
-        }
-        return false;
+        ArrayList<Query> facts = this.factsDictionary.get(factKey);
+        return (facts.contains(fact));
     }
 }

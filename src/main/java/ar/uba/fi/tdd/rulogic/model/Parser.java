@@ -12,10 +12,11 @@ import java.util.HashMap;
 public class Parser {
 
     public HashMap<String,ArrayList<Query>> factsDictionary;
-    public HashMap<String,ArrayList<Query>> rulesDictionary;
+    public HashMap<String,Query> rulesDictionary;
 
     public Parser(){
         factsDictionary = new HashMap<String,ArrayList<Query>>();
+        rulesDictionary = new HashMap<String,Query>();
     }
 
     public void parse() throws IOException {
@@ -31,10 +32,11 @@ public class Parser {
             }else{
                 parseFact(query);
             }
-            //System.out.println(line);
         }
 
-        System.out.print(factsDictionary);
+        System.out.println(factsDictionary);
+        System.out.println(rulesDictionary);
+
         in.close();
     }
 
@@ -57,8 +59,7 @@ public class Parser {
 
 
     private void parseRule(Query query){
-        //TODO
-        //System.out.println("parse rule");
-
+        String ruleKey = query.getEventKey();
+        rulesDictionary.put(ruleKey,query);
     }
 }
