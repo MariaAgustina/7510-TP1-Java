@@ -1,5 +1,7 @@
 package ar.uba.fi.tdd.rulogic.model;
 
+import java.util.regex.Pattern;
+
 /**
  * Created by mariagustina on 04/11/17.
  */
@@ -9,6 +11,14 @@ public class Query {
     public Query(String query){
         query = query.replaceAll("\\s+","");
         this.query = query;
+    }
+
+    public boolean isSintaxVaild(){
+        final Pattern pattern = Pattern.compile(".*\\(.*\\).");
+        if (!pattern.matcher(this.query).matches()) {
+            return false;
+        }
+        return true;
     }
 
     public boolean isRule(){

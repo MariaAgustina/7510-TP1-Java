@@ -13,20 +13,30 @@ public class Parser {
 
     public HashMap<String,ArrayList<Query>> factsDictionary;
     public HashMap<String,Query> rulesDictionary;
+    public boolean isDbValid;
+    public String databaseFile;
 
     public Parser(){
         factsDictionary = new HashMap<String,ArrayList<Query>>();
         rulesDictionary = new HashMap<String,Query>();
+        this.isDbValid = true;
     }
 
     public void parse() throws IOException {
-        FileReader in = new FileReader("src/main/resources/rules.db");
+        FileReader in = new FileReader(this.databaseFile);
         BufferedReader br = new BufferedReader(in);
 
         String line;
         while ((line = br.readLine()) != null) {
             line = line.replaceAll("\\s+","");
             Query query = new Query(line);
+
+            if(!query.isSintaxVaild()){
+               System.out.println("Error, la base de datos es invalida en la linea " + query.query);
+                this.isDbValid = false;
+                return;
+            }
+
             if(query.isRule()){
                 parseRule(query);
             }else{
@@ -34,15 +44,11 @@ public class Parser {
             }
         }
 
-        System.out.println(factsDictionary);
-        System.out.println(rulesDictionary);
-
         in.close();
     }
 
 
     private void parseFact(Query query){
-        //System.out.println("parse fact");
         String factKey = query.getEventKey();
 
         ArrayList<Query> factArray;

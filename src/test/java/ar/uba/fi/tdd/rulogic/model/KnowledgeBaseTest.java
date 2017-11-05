@@ -15,10 +15,12 @@ public class KnowledgeBaseTest {
 	@Before
 	public void setUp() throws Exception {
 		initMocks(this);
+		this.knowledgeBase.databaseFile = "src/main/resources/rules.db";
 	}
 
 	@Test
 	public void factsTests() {
+
 		Assert.assertTrue(this.knowledgeBase.answer("varon (juan)."));
 		Assert.assertTrue(this.knowledgeBase.answer("varon(juan)."));
 		Assert.assertTrue(this.knowledgeBase.answer("varon( nicolas ) ."));

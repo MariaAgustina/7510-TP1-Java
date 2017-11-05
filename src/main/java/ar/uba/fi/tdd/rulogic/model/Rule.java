@@ -26,8 +26,6 @@ public class Rule{
     }
 
     private void setupRule(){
-        System.out.println(this.definition.query);
-
         String definitionString = this.definition.query.substring(0, this.definition.query.indexOf(':'));
         List<String> definitionParametersList = this.getParameters(definitionString);
         String ruleQueryString = this.ruleQuery.query;
@@ -38,8 +36,6 @@ public class Rule{
             String ruleParameter = ruleParametersList.get(index);
             this.rule = this.rule.replace(definitionParameter, ruleParameter);
         }
-        System.out.println(this.rule);
-
     }
 
     private void setFactsArray(){
