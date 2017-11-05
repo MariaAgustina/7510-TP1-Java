@@ -14,11 +14,20 @@ public class KnowledgeBase {
 	}
 
 	public boolean answer(String query) {
+		Query queryReceived = new Query(query);
+
+		try{
+			queryReceived.isSintaxValidThrowsException();
+		}catch (final IllegalArgumentException ex){
+			ex.printStackTrace();
+			throw new IllegalArgumentException("La query recibida es invalida");
+		}
+
 		setUpData();
 		if(!isDbValid){
 			return false;
 		}
-		Query queryReceived = new Query(query);
+
 		return this.validator.isValid(queryReceived);
 	}
 

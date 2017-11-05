@@ -13,12 +13,16 @@ public class Query {
         this.query = query;
     }
 
-    public boolean isSintaxVaild(){
+    public boolean isSintaxValid(){
         final Pattern pattern = Pattern.compile(".*\\(.*\\).");
-        if (!pattern.matcher(this.query).matches()) {
-            return false;
+        return (pattern.matcher(this.query).matches());
+
+    }
+
+    public void isSintaxValidThrowsException(){
+        if(!isSintaxValid()) {
+            throw new IllegalArgumentException("La query "+ query + " es invalida");
         }
-        return true;
     }
 
     public boolean isRule(){

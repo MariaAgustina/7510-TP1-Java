@@ -31,7 +31,7 @@ public class Parser {
             line = line.replaceAll("\\s+","");
             Query query = new Query(line);
 
-            if(!query.isSintaxVaild()){
+            if(!query.isSintaxValid()){
                System.out.println("Error, la base de datos es invalida en la linea " + query.query);
                 this.isDbValid = false;
                 return;
